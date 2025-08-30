@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head><title>Delete User</title></head>
+<body>
+<button id="deleteBtn">Delete User</button>
+<p id="deleteSuccess" style="display:none;">User Deleted!</p>
+
+<script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const userId = urlParams.get('id');
+
+    document.getElementById("deleteBtn").onclick = async function() {
+        const res = await fetch(`/api/users/${userId}`, { method: 'DELETE' });
+        if (res.ok) {
+            document.getElementById("deleteSuccess").style.display = 'block';
+        }
+    };
+</script>
+</body>
+</html>

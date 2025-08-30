@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head><title>User List</title></head>
+<body>
+<table border="1" id="userTable">
+    <thead><tr><th>ID</th><th>Username</th><th>Email</th></tr></thead>
+    <tbody id="userBody"></tbody>
+</table>
+
+<script>
+    fetch('/api/users')
+        .then(res => res.json())
+        .then(users => {
+            const body = document.getElementById("userBody");
+            users.forEach(user => {
+                const row = `<tr><td>${user.id}</td><td>${user.username}</td><td>${user.email}</td></tr>`;
+                body.innerHTML += row;
+            });
+        });
+</script>
+</body>
+</html>

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head><title>Edit User</title></head>
+<body>
+<form id="editForm">
+    <input type="text" id="username"><br>
+    <input type="email" id="email"><br>
+    <button type="submit" id="updateBtn">Update</button>
+</form>
+<p id="updateSuccess" style="display:none;">Update Successful!</p>
+
+<script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const userId = urlParams.get('id');
+
+    fetch(`/api/users/${userId}`)
+        .then(res => res.json())
+        .then(user => {
+            document.getElementById("username").value = user.username;
+            document.getElementById("email").value = user.email;
+        });
+
+    document.getElementById("editForm").onsubmit = async function(e) {
+        e.preventDefault();
+        const updatedUser = {
+            username: document.getElementById("username").value,
+            email: document.getElementById("email").value
+        };
+
+        const res = await fetch(`/api/users/${userId}`, {
+            method: 'PUT',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(updatedUser)
+        });
+
+        if (res.ok) {
+            document.getElementById("updateSuccess").style.display = 'block';
+        }
+    };
+</script>
+</body>
+</html>
